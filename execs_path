@@ -1,0 +1,27 @@
+#!/bin/bash
+
+oldIFS="$IFS"
+IFS=":"
+exec_count=0
+nonexec_count=0
+
+for directory in $PATH
+do
+  if [ -d "$directory" ]
+  then
+    for command in "$directory"/*
+    do
+      if [ -x "$command" ]
+      then
+        exec_count=$(( exec_count + 1 ))
+      else
+        nonexec_count=$(( nonexec_count + 1 ))
+      fi
+    done
+  fi
+done
+
+echo "There were $exec_count executables and $nonexec_count non executables in the PATH variable"
+IFS="$oldIFS"
+
+exit 0

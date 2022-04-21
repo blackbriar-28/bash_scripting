@@ -1,0 +1,13 @@
+#!/bin/bash
+
+locatedb="/var/locate.db"
+
+if [ "$(whoami)" != "root" ]
+then
+  echo "$(basename $0) error: Script should be run as root" >&2
+  exit
+fi
+
+find / -print > $locatedb
+
+exit 0

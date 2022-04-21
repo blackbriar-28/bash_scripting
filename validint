@@ -1,0 +1,55 @@
+#!/bin/bash
+
+function validint
+{
+  number="$1"
+  min="$2"
+  max="$3"
+  
+  if [ -z $number ]
+  then
+    #echo "You didn't provide anything, please provide a number [min] [max]" >&2
+    return 1
+  fi
+  
+  if [ $(echo "$number" | cut -c1) = '-' ]
+  then
+    testnumber="$(echo "$number" | cut -c2-)"
+  else
+    testnumber="$number"
+  fi
+  
+  if [ ! -z $(echo "$testnumber" | sed 's/[[:digit:]]//g') ]
+  then
+    echo "Usage $0: Not a valid number, only digits allowed" >&2
+    return 1
+  fi
+  
+  if [ ! -z "$min" ]
+  then
+    if [ "$number" -lt "$min" ]
+    then
+      echo "The number provided is too short, min value allowed is: $min" >&2
+      return 1
+    fi
+  fi
+  
+  if [ ! -z "$max" ]
+  then
+    if [ "$number" -gt "$max" ]
+    then
+      echo "The number provided is too big, max value allowed is: $max" >&2
+      return 1
+    fi
+  fi
+  
+  return 0
+}
+
+#if validint "$1" "$2" "$3"
+#then
+#  echo "The value with your restrictions is valid"
+#  exit 0
+#fi
+
+#exit 1  

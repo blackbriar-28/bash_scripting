@@ -1,0 +1,33 @@
+#!/bin/bash
+
+. validint
+
+topnumber=100
+tries=0
+guess=0
+
+guessednumber=$(( $$ % $topnumber ))
+
+echo "Guess a number between 1 and $topnumber"
+while [ "$guess" -ne $guessednumber ]
+do
+  /bin/echo -n "Guess? "
+  read guess
+  
+  if validint $guess
+  then
+    if [ "$guess" -gt "$guessednumber" ]
+    then
+      echo "...lower"
+    elif [ "$guess" -lt "$guessednumber" ]
+    then
+      echo "...bigger"
+    fi
+    tries=$(( tries + 1 ))
+  else
+    guess=0
+  fi
+done
+
+echo "Yes! you guessed $guessednumber in $tries tries"
+exit 0

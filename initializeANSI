@@ -1,0 +1,34 @@
+#!/bin/bash
+
+function initializeANSI
+{
+  esc=""
+  
+  #foreground colors
+  blackf="${esc}[30m";
+  yellowf="${esc}[33m";
+  cyanf="${esc}[36m";
+  redf="${esc}[31m";
+  bluef="${esc}[34m";
+  whitef="${esc}[37m";
+  greenf="${esc}[32m";
+  purplef="${esc}[35m";
+
+  #background colors
+  blackb="${esc}[40m";
+  yellowb="${esc}[43m";
+  cyanb="${esc}[46m";
+  redb="${esc}[41m";
+  blueb="${esc}[44m";
+  whiteb="${esc}[47m";
+  greenb="${esc}[42m";
+  purpleb="${esc}[45m";
+
+  #Bold, italic, underline, and inverse style toggles
+  boldon="${es}[1m";  	 boldoff="{esc}[22m"
+  italicson="${es}[3m";  italicsoff="{esc}[23m"
+  ulon="${es}[4m";       uloff="{esc}[24m"
+  invon="${es}[7m";      invoff="{esc}[27m"
+
+  reset="${esc}[0m"
+}

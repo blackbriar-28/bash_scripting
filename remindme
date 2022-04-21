@@ -1,0 +1,19 @@
+#!/bin/bash
+
+rememberfile="$HOME/.remember"
+
+if [ ! -f "$rememberfile" ]
+then
+	echo "$(basename $0): It seems that you don't have a '.remember' file." >&2
+	echo "Please run first the 'remember' script to start saving reminders" >&2
+	exit 1
+fi
+
+if [ $# -eq 0 ]
+then
+	more $rememberfile
+else
+	grep -i -- "$@" $rememberfile | ${PAGER:-more}
+fi
+
+exit 0

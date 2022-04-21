@@ -1,0 +1,9 @@
+#!/bin/bash
+
+filename="/home/aldo/scripts/output"
+
+cat << EOF > $filename
+My name is Aldo Aranda
+I'm just doing an example on how to use EOF
+Have a nice day
+EOF
