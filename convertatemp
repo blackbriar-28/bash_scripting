@@ -40,6 +40,4 @@ echo "Fahrenheit:	$farn"
 echo "Celcius:	$cels"
 echo "Kelvin:		$kelv"
 
-exit 0	
-		
-		
+exit 0
