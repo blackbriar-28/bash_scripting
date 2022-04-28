@@ -54,6 +54,6 @@ then
   exit 1
 fi
 
-echo "Total to pay: \$$(nicenumber $1 1) USD"
+echo "\$$(nicenumber $1 1) MXN"
 
 exit 0
