@@ -1,0 +1,43 @@
+#!/bin/bash
+
+agendafile="$HOME/.agenda"
+
+checkDate()
+{
+	weekday="$1"
+	day="$2"
+	month="$3"
+	year="$4"
+
+	format1="$weekday"
+	format2="$day$month"
+	format3="$day$month$year"
+
+	IFS="|"
+
+	echo "On the agenda for today"
+
+	while read date description
+	do
+		if [ "$date" = "$format1" -o "$date" = "$format2" -o \
+			"$date" = "$format3" ]
+		then
+			echo "$description"
+		fi
+	done < $agendafile
+}
+
+if [ ! -e "$agendafile" ]
+then
+	echo "$(basename $0) It seems that you dont have an .agenda file" >&2
+	echo "To remedy this, add events running the 'addagenda' script" >&2
+	exit 1
+fi
+
+eval $(date '+weekday="%a" day="%e" month="%b" year="%G"')
+
+day="$(echo $day| sed 's/ //g')"
+
+checkDate $weekday $day $month $year
+
+exit 0
