@@ -22,7 +22,7 @@ checkDate()
 		if [ "$date" = "$format1" -o "$date" = "$format2" -o \
 			"$date" = "$format3" ]
 		then
-			echo "$description"
+			echo "  $description"
 		fi
 	done < $agendafile
 }
