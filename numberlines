@@ -1,0 +1,13 @@
+#!/bin/bash
+
+for FILE in "$@"
+do
+  linecount="1"
+  while IFS="\n" read line
+  do
+    echo "${linecount}: $line"
+    linecount=$(( $linecount + 1 ))
+  done < $FILE
+done
+
+exit 0
