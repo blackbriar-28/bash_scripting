@@ -1,0 +1,23 @@
+#!/bin/bash
+
+width=72
+
+if [ ! -r "$1" ]
+then
+	echo "Error, not able to read $1" >&2
+	echo "Usage, $(basename $0) filename" >&2
+	exit 1
+fi
+
+while read line
+do
+	length=$(echo $line | wc -c | sed 's/[^[:digit:]]//g')
+	if [ $length -gt $width ]
+	then
+		echo "$line" | fmt
+	else
+		echo "$line"
+	fi
+done < $1
+
+exit 0
