@@ -1,0 +1,19 @@
+#!/bin/bash
+
+flags=""
+realdate="$(which date)"
+
+while [ "$#" -gt 0 ]
+do
+  case $1
+  in
+    -help)      echo "Usage: $(basename $0) [--version --help -h -v]" >&2
+                 exit 1;;
+    -v)  flags="$flags --version"; shift ;;
+    -h)  flags="$flags --help"; shift ;;
+    --)          shift;             break ;;
+    *)           break;             #Done with 'while' loop
+  esac
+done
+
+exec $realdate $flags "$@"
