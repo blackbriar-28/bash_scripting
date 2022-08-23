@@ -22,4 +22,5 @@ else
   host=$1
 fi
 
-exec sftp $account@$host
+# End by switching to sftp. The -C flag enables compression here.
+exec sftp -C $account@$host
