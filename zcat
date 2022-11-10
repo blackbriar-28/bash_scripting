@@ -1,0 +1,56 @@
+#!/bin/bash
+
+Z="compress";	uZ="uncompress";	Zlist="";
+gz="gzip";		ugz="gunzip";			gzlist="";
+bz="bzip2";		ubz="bunzip2";			bzlist="";
+
+for arg
+do
+	if [ -f "$arg" ]
+	then
+		case "$arg" in
+
+			*.Z)	$uZ "$arg"
+						arg=$(echo $arg | sed 's/\.Z$//')
+						Zlist="$Zlist \"$arg\""
+						;;
+
+			*.gz)	$ugz "$arg"
+						arg=$(echo $arg | sed 's/\.gz$//')
+						gzlist="$gzlist \"$arg\""						
+						;;
+
+			*.bz2)	$ubz "$arg"
+							arg=$(echo $arg | sed 's/\.bz2$//')
+							bzlist="$bzlist \"$arg\""
+							;;
+		esac
+	fi
+	newargs="${newargs:-""} \"$arg\""
+done
+
+case $0 in
+
+	*zcat*	)	eval cat 	$newargs	;;
+	*zmore*	)	eval more $newargs	;;
+	*zgrep*	)	eval grep $newargs	;;
+	      *	)	echo "$(basename $0) is an invalid base, can't proceed." >&2
+						exit 1
+esac
+
+if [ ! -z "$Zlist" ]
+then
+	eval $Z $Zlist
+fi
+
+if [ ! -z "$gzlist" ]
+then
+	eval $gz $gzlist
+fi
+
+if [ ! -z "$bzlist" ]
+then
+	eval $bz $bzlist
+fi
+
+exit 0
