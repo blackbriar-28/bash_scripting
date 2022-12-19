@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# bestcompression - 
+# -a , when present skips files already compressed
+
+Z="compress"	gz="gzip"	bz="bzip2"
+Zout="/tmp/bestcompression.$$.Z"
+gzout="/tmp/bestcompression.$$.gz"
+bzout="/tmp/bestcompression.$$.bz2"
+skipcompression=1
+
+if [ "$1" = "-a" ]
+then
+	skipcompression=0
+	shift
+fi
+
+if [ $# -eq 0 ]
+then
+	echo "ERROR, $(basename $0), [-a] files to be compressed." >&2
+	exit 1
+fi
+
+trap "/bin/rm -f $Zout $gzout $bzout" EXIT
+
+for name in "$@"
+do
+	if [ ! -f "$name" ]
+	then
+		echo "WARNING, '$name' file not found, skipping" >&2
+		continue
+	fi
+
+	if [ "$(echo $name | egrep '(\.Z$|\.gz$|\.bz2$)')" != "" ]
+	then
+		if [ $skipcompression -eq 1 ]
+		then
+			echo "Skipping file '$name' as it is already compressed" >&2
+		else
+			echo "WARNING, compressing file already compressed" >&2
+		fi
+	fi
+
+	# Compress the 3 files in paralell
+	$Z < $name > $Zout &
+	$gz < $name > $gzout &
+	$bz < $name > $bzout &
+
+	wait # Wait for all files to be compressed
+
+	smallest="$(ls -l "$name" $Zout $gzout $bzout | awk '{print $5"="NR}' | sort -n | cut -d= -f2 | head -1 )"
+
+	case "$smallest" in
+		1 )	echo "No space savings by compressing '$name'. Left as is."
+				;;
+		2 )	echo "Best compression is with compress. File renamed ${name}.Z"
+				mv $Zout "${name}.Z"; rm -f "$name"
+				;;
+		3 )	echo "Best compression is with gzip. File renamed ${name}.gz"
+				mv $gzout "${name}.gz"; rm -f "$name"
+				;;
+		4 )	echo "Best compression is with bzip2. File renamed ${name}.bz2"
+				mv $bzout "${name}.gz"; rm -f "$name"
+				;;
+	esac
+done
+
+exit 0
