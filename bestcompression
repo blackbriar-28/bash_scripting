@@ -36,6 +36,7 @@ do
 		if [ $skipcompression -eq 1 ]
 		then
 			echo "Skipping file '$name' as it is already compressed" >&2
+			continue
 		else
 			echo "WARNING, compressing file already compressed" >&2
 		fi
