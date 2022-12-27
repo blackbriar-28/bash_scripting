@@ -1,0 +1,12 @@
+#!/bin/bash
+
+MAXDISKUSAGE=20000 # In Megabytes
+
+for username in $(cut -d: -f1,3 /etc/passwd | awk -F: '$2 > 99 {print $1}')
+do
+	/bin/echo -n "User $username exceeds disk quota. Disk usage is: "
+	find / /usr /var /home -xdev -user $username -type f -ls 2> /dev/null | \
+		awk '{ sum += $7 } END { print sum / (1024*1024) " Megabytes" }'
+done | awk "\$9 > $MAXDISKUSAGE { print \$0 }"
+
+exit 0
