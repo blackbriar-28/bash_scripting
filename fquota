@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MAXDISKUSAGE=2000 # In Megabytes
+MAXDISKUSAGE=20000 # In Megabytes
 
 for username in $(cut -d: -f1,3 /etc/passwd | awk -F: '$2 > 99 {print $1}')
 do
