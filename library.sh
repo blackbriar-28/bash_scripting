@@ -142,4 +142,4 @@ function checkForCmdInPath()
   fi
 }
 
-name="Aldo Aranda"
+name="Aldo"
