@@ -1,8 +1,12 @@
-#!/bin/bash -
+#!/bin/bash
 
-HASH=$1
-DIR=${2:-.}
+HASH="${1:-}"
+DIR="${2:-.}"
 
+if [[ -z "$HASH" ]]; then
+  echo "Usage: $0 <sha1-hash> [dir]" >&2
+  exit 2
+fi
 # convert pathname into an absolute path
 function mkpathabs ()
 {
